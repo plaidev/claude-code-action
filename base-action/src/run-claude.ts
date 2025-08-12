@@ -119,6 +119,7 @@ export function prepareRunConfig(
 
 export async function runClaude(promptPath: string, options: ClaudeOptions) {
   const config = prepareRunConfig(promptPath, options);
+  console.log("Successfully prepared run config");
 
   // Create a named pipe
   try {
@@ -128,7 +129,9 @@ export async function runClaude(promptPath: string, options: ClaudeOptions) {
   }
 
   // Create the named pipe
+  console.log(`Creating named pipe at ${PIPE_PATH}`);
   await execAsync(`mkfifo "${PIPE_PATH}"`);
+  console.log("Successfully created named pipe");
 
   // Log prompt file size
   let promptSize = "unknown";

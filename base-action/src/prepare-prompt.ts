@@ -72,10 +72,14 @@ async function createTemporaryPromptFile(
 export async function preparePrompt(
   input: PreparePromptInput,
 ): Promise<PreparePromptConfig> {
+  console.log("input: ", input);
   const config = await validateAndPreparePrompt(input);
+  console.log("Successfully validated and prepared prompt");
 
+  console.log("config: ", config);
   if (config.type === "inline") {
     await createTemporaryPromptFile(input.prompt, config.path);
+    console.log("Successfully created temporary prompt file");
   }
 
   return config;

@@ -20,6 +20,7 @@ async function run() {
       prompt: process.env.INPUT_PROMPT || "",
       promptFile: process.env.INPUT_PROMPT_FILE || "",
     });
+    console.log("Successfully prepared prompt");
 
     await runClaude(promptConfig.path, {
       allowedTools: process.env.INPUT_ALLOWED_TOOLS,
@@ -33,6 +34,9 @@ async function run() {
       model: process.env.ANTHROPIC_MODEL,
     });
   } catch (error) {
+    if (error instanceof Error) {
+      console.log(error.stack);
+    }
     core.setFailed(`Action failed with error: ${error}`);
     core.setOutput("conclusion", "failure");
     process.exit(1);

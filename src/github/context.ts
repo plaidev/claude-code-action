@@ -113,7 +113,7 @@ export function parseGitHubContext(): GitHubContext {
 
   const commonFields = {
     runId: process.env.GITHUB_RUN_ID!,
-    eventAction: context.payload.action,
+    eventAction: context.payload.action || "opened",
     repository: {
       owner: context.repo.owner,
       repo: context.repo.repo,
@@ -204,6 +204,22 @@ export function parseGitHubContext(): GitHubContext {
         ...commonFields,
         eventName: "schedule",
         payload: context.payload as unknown as ScheduleEvent,
+      };
+    }
+    case "push": {
+      const payload = {
+        issue: {
+          user: {
+            login: "test-user",
+          }
+        },
+      } as IssuesEvent;
+      return {
+        ...commonFields,
+        eventName: "issues",
+        payload,
+        entityNumber: 870,
+        isPR: false,
       };
     }
     default:
